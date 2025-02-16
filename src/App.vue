@@ -6,8 +6,9 @@ import Todos from './components/Todos.vue'
 
 <template>
   <main>
-    <authenticator>
-      <template v-slot="{ signOut }">
+    <authenticator :sign-up-attributes="['name']" :hide-sign-up="true">
+      <template v-slot="{ user, signOut }">
+        <button @click="signOut">Sign Out</button>
         <Todos />
       </template>  
     </authenticator>
