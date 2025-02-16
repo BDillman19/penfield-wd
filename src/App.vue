@@ -1,17 +1,18 @@
 <script setup lang="ts">
 import { Authenticator } from "@aws-amplify/ui-vue";
 import "@aws-amplify/ui-vue/styles.css";
-import Todos from './components/Todos.vue'
 import Customers from "./components/Customers.vue";
+import Readings from "./components/Readings.vue";
 </script>
 
 <template>
   <main>
+      <img id="logoHeader" src="./assets/PWDLogoFullUpdated.png"/>
     <authenticator :sign-up-attributes="['name']" :hide-sign-up="true">
       <template v-slot="{ user, signOut }">
         <button @click="signOut">Sign Out</button>
-        <Todos />
         <Customers />
+        <Readings />
       </template>  
     </authenticator>
   </main>

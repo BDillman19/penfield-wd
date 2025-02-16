@@ -1,6 +1,5 @@
 <script setup lang="ts">
 
-import { register } from 'module';
 import type {Schema} from '../../amplify/data/resource'
 import { generateClient } from 'aws-amplify/data'
 import { onMounted, ref } from 'vue';
@@ -31,15 +30,6 @@ onMounted(() => {
 <template>
     <div>
         <h1>Add Customer</h1>
-        <!-- <form @submit.prevent="registerAnswer">
-            <div>Service Address: {{ serviceAddressInp }}</div>
-            <div>Name: {{  nameInp }}</div>
-            <label>
-                <textarea v-model="serviceAddressInp" placeholder="Serivce Address" rows="1" cols="35"></textarea>
-                <textarea v-model="nameInp" placeholder="Name" rows="1" cols="35"></textarea>
-            </label>
-            <button type="submit" >Add</button>
-        </form> -->
         <input v-model="servAddr" placeholder="Service Address"/>
         <input v-model="nameInp" placeholder="Name"/>
 
@@ -52,6 +42,7 @@ onMounted(() => {
               v-for="customer in customers"
               :key="customer.id">
               {{ customer.name }}
+              {{ customer.meterId }}
             </li>
         </ul>
     </div>
