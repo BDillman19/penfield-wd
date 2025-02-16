@@ -12,14 +12,6 @@ const schema = a.schema({
       content: a.string(),
     })
     .authorization((allow) => [allow.publicApiKey()]),
-  
-  Event: a
-    .model({
-      date: a.string(),
-      description: a.string(),
-      notes: a.string(),
-    })
-    .authorization((allow) => [allow.publicApiKey()]),
 
   Customer: a
     .model({
