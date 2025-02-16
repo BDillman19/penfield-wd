@@ -13,14 +13,14 @@ const schema = a.schema({
     })
     .authorization((allow) => [allow.publicApiKey()]),
 
-  // Customer: a
-  //   .model({
-  //     serviceAddress: a.string(),
-  //     name: a.string(),
-  //     meterId: a.id(),
-  //     readings: a.hasMany('Reading', 'meterId')
-  //   })
-  //   .authorization((allow) => [allow.publicApiKey()]),
+  Customer: a
+    .model({
+      serviceAddress: a.string(),
+      name: a.string(),
+      //meterId: a.id(),
+      // readings: a.hasMany('Reading', 'meterId')
+    })
+    .authorization((allow) => [allow.publicApiKey()]),
     
   // Reading: a
   //   .model({
