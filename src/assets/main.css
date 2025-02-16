@@ -1,6 +1,6 @@
 body {
   margin: 0;
-  background: linear-gradient(180deg, rgb(2, 94, 214), rgb(255, 255, 255));
+  background: linear-gradient(180deg, rgb(106, 147, 204), rgb(255, 255, 255));
   display: flex;
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
   height: 100vh;
@@ -22,7 +22,7 @@ button {
   font-size: 1em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
+  background-color: #423f3f;
   cursor: pointer;
   transition: border-color 0.25s;
   color: white;
@@ -33,6 +33,15 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+#signOut {
+  width: 150px;
+  margin: auto;
+  border-radius: 8px;
+  position: fixed;
+  top: 15px;
+  right: 15px;
 }
 
 ul {
@@ -65,7 +74,23 @@ a {
 }
 
 #logoHeader {
-  width: 50%;
+  width: 30%;
   height: auto;
   margin: auto;
+  position: fixed;
+  top: 15px;
+  left: 35%;
+
+
+}
+
+.modalInput {
+  padding: 5px;
+  border-radius: 8px;
+  margin: 3px; 
+  width: 99%;
+}
+
+.modal-body {
+  align-items: center;
 }

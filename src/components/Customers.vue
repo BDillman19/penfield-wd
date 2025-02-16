@@ -2,7 +2,8 @@
 
 import type {Schema} from '../../amplify/data/resource'
 import { generateClient } from 'aws-amplify/data'
-import { onMounted, ref } from 'vue';
+import { onMounted, ref } from 'vue'
+import { v4 } from 'uuid'
 
 const client = generateClient<Schema>()
 const customers = ref<Array<Schema['Customer']['type']>>([])
@@ -12,7 +13,8 @@ const nameInp = ref('')
 function createCustomer(address: string, name: string) {
     client.models.Customer.create({
         serviceAddress: address,
-        name: name
+        name: name,
+        meterId: v4()
     })
     fetchCustomers();
 }
@@ -28,14 +30,6 @@ onMounted(() => {
 </script>
 
 <template>
-    <div>
-        <h1>Add Customer</h1>
-        <input v-model="servAddr" placeholder="Service Address"/>
-        <input v-model="nameInp" placeholder="Name"/>
-
-
-        <button @click="createCustomer(servAddr, nameInp)">Add new Customer</button>
-    </div>
     <div>
         <ul>
             <li
