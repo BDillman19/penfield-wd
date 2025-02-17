@@ -14,7 +14,7 @@ import '@coreui/coreui/dist/css/coreui.min.css';
     <authenticator :sign-up-attributes="['name']" :hide-sign-up="true">
       <template v-slot="{ user, signOut }">
         <button id="signOut" @click="signOut">Sign Out</button>
-        <NewCustomerPopup />
+        <!-- <NewCustomerPopup /> -->
         <Customers />
         <!-- <Readings /> -->
       </template>  
