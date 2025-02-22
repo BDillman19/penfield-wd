@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { CModal, CModalTitle, CModalHeader, CModalBody, CModalFooter, CButton } from '@coreui/vue';
-import Customers from './Customers.vue';
 
 const visibleNewCustPopup = ref(false)
 const serviceAddress = ref('')
 const name = ref('')
+const emits = defineEmits(['createCustomer'])
 
 function saveCustomer(address: string, name: string) {
     
@@ -35,9 +35,9 @@ function saveCustomer(address: string, name: string) {
                 Cancel
             </CButton>
             <CButton color="primary" @click="() => {
-                Customers.createCustomer(serviceAddress, name)
+                $emit('createCustomer', serviceAddress, name)
                 visibleNewCustPopup = false
-                }">
+            }">
                 Save Customer
             </CButton>
         </CModalFooter>
