@@ -13,21 +13,22 @@ const schema = a.schema({
     })
     .authorization((allow) => [allow.publicApiKey()]),
 
-  // Customer: a
-  //   .model({
-  //     serviceAddress: a.string(),
-  //     name: a.string(),
-  //     meterId: a.id(),
-  //     readings: a.hasMany('Reading', 'meterId')
-  //   })
-  //   .authorization((allow) => [allow.publicApiKey()]),
+  Customer: a
+    .model({
+      serviceAddress: a.string(),
+      name: a.string(),
+      meterId: a.id(),
+       readings: a.hasMany('Reading', 'meterId')
+    })
+    .authorization((allow) => [allow.publicApiKey()]),
     
-  // Reading: a
-  //   .model({
-  //     value: a.float(),
-  //     meterId: a.id(),
-  //     customer: a.belongsTo('Customer', 'meterId')
-  //   })
+  Reading: a
+    .model({
+      value: a.float(),
+      meterId: a.id(),
+      customer: a.belongsTo('Customer', 'meterId')
+    })
+    .authorization((allow) => [allow.publicApiKey()]),
 });
 
 export type Schema = ClientSchema<typeof schema>;
