@@ -7,10 +7,6 @@ const serviceAddress = ref('')
 const name = ref('')
 const emits = defineEmits(['createCustomer'])
 
-function saveCustomer(address: string, name: string) {
-    
-}
-
 </script>
 
 

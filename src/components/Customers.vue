@@ -5,10 +5,12 @@ import { generateClient } from 'aws-amplify/data'
 import { onMounted, ref } from 'vue'
 import { v4 } from 'uuid'
 import NewCustomerPopup from './NewCustomerPopup.vue'
+import CustomerDataPopup from './CustomerDataPopup.vue'
 import { CTable,CTableHead, CTableRow, CTableHeaderCell, CTableBody, CTableDataCell } from '@coreui/vue'
 
 
 const client = generateClient<Schema>()
+const customersReadings = ref<Array<Schema['Reading']['type']>>([])
 const customers = ref<Array<Schema['Customer']['type']>>([])
 let customerTableData: object[] = []
 
@@ -30,19 +32,23 @@ async function fetchCustomers(){
   
 }
 
-// function getLatestReadingByMeterId(meterId: string) {
-//     let reading: Schema['Reading'] = client.models.Reading.list({
-//         filter: {
-//             meterId: {
-//                 eq: meterId
-//             }
-//         }
-//     }).then(readingList => {
-//         if readingList.data.length > 0 {
-//             return 
-//         } 
-//     })
-    
+function fetchReadingsByMeterId(meterId: string) {
+    client.models.Reading.list({
+        filter: {
+            meterId: {
+                eq: meterId
+            }
+        }
+    }).then (readingList => {
+        customersReadings.value = readingList.data
+        return readingList.data
+    })
+}
+
+// function fetLastestReadingByMeterId(meterId: string) {
+//     fetchReadingsByMeterId(meterId).forEach(element => {
+        
+//     });
 // }
 
 function deleteCustomer(id: string) {
@@ -61,6 +67,7 @@ onMounted(() => {
    <NewCustomerPopup 
         v-on:createCustomer="createCustomer"
     />
+    
     <div class="dataTable">
     <CTable striped bordered hover>
         <CTableHead>
@@ -74,7 +81,8 @@ onMounted(() => {
             <CTableRow v-for="customer in customers">
                 <CTableDataCell> {{ customer.name }}</CTableDataCell>
                 <CTableDataCell> {{ customer.serviceAddress }}</CTableDataCell>
-                <CTableDataCell> {{ customer.meterId }}</CTableDataCell>
+                <CTableDataCell> 123456</CTableDataCell>
+                <CTableDataCell> <CustomerDataPopup /></CTableDataCell>
             </CTableRow>
         </CTableBody>
     </CTable>
