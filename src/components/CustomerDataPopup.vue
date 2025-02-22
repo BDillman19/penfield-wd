@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue';
 import { CModal, CModalTitle, CModalHeader, CModalBody, CModalFooter, CButton } from '@coreui/vue';
-import { Schema } from 'amplify/data/resource';
+import type { Schema } from 'amplify/data/resource';
 import { generateClient } from 'aws-amplify/api';
 import { Filter } from 'aws-cdk-lib/aws-sns';
 import { equal } from 'assert';
