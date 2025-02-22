@@ -80,8 +80,16 @@ a {
   position: fixed;
   top: 15px;
   left: 35%;
+}
 
-
+@media only screen  and (max-width: 768px) {
+  #logoHeader {
+    width: 50%;
+    margin: auto;
+    position: fixed;
+    top: 15px;
+    left: 15px;
+  }
 }
 
 .modalInput {
