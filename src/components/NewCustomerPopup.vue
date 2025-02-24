@@ -1,45 +1,65 @@
 <script setup lang="ts">
 import { ref } from 'vue';
-import { CModal, CModalTitle, CModalHeader, CModalBody, CModalFooter, CButton } from '@coreui/vue';
+import { Button, Dialog, InputText } from 'primevue';
+import { PrimeIcons } from '@primevue/core/api'
+import 'primeicons/primeicons.css'
 
 const visibleNewCustPopup = ref(false)
 const serviceAddress = ref('')
 const name = ref('')
 const emits = defineEmits(['createCustomer'])
 
-function saveCustomer(address: string, name: string) {
-    
-}
-
 </script>
 
-
 <template>
-    <CButton color="primary" @click="() => { visibleNewCustPopup = true }">Add Customer</CButton>
-    <CModal 
-        backdrop="static"
-        alignment="center"
-        :visible="visibleNewCustPopup"
-        @close="() => { visibleNewCustPopup = false }"
-        aria-labelledby="AddCustomerModal"
-    >
-        <CModalHeader>
-            <CModalTitle id="AddCustomerModal">Add Customer</CModalTitle>
-        </CModalHeader>
-        <CModalBody>
-            <input class="modalInput" v-model="name" placeholder="Name"/>
-            <input class="modalInput" v-model="serviceAddress" placeholder="Service Address"/>
-        </CModalBody>
-        <CModalFooter>
-            <CButton color="secondary" @click="() => { visibleNewCustPopup = false }">
-                Cancel
-            </CButton>
-            <CButton color="primary" @click="() => {
-                $emit('createCustomer', serviceAddress, name)
-                visibleNewCustPopup = false
-            }">
-                Save Customer
-            </CButton>
-        </CModalFooter>
-    </CModal>
+    <Button :icon="PrimeIcons.USER_EDIT"
+                        raised
+                        severity="info"
+                        id="addCustomerButton"
+                        @click="() => { visibleNewCustPopup = true }"></Button>
+
+    
+    <Dialog 
+        v-model:visible="visibleNewCustPopup"
+        modal
+        header="Add Customer"
+        :style="{ width: '30rem' }"
+        >
+        <span class="text-surface-500 dark:text-surface-400 block mb-8">Enter Customer information.</span>
+        <div class="flex items-center gap-4 mb-4">
+            <InputText 
+                id="name" 
+                class="flex-auto" 
+                autocomplete="off" 
+                placeholder="Name"
+                v-model="name" />
+        </div>
+        <div class="flex items-center gap-4 mb-8">
+            <InputText 
+                id="serviceAddress" 
+                class="flex-auto" 
+                autocomplete="off" 
+                placeholder="Service Address"
+                v-model="serviceAddress" />
+        </div>
+        <div class="flex justify-end">
+            <Button 
+                class="modalButton" 
+                type="button" 
+                label="Cancel" 
+                severity="secondary" 
+                @click="visibleNewCustPopup = false">
+            </Button>
+            <Button 
+                class="modalButton" 
+                type="button" 
+                label="Save" 
+                severity="info" 
+                @click="() => {
+                    $emit('createCustomer', serviceAddress, name)
+                    visibleNewCustPopup = false
+                }">
+            </Button>
+        </div>
+    </Dialog>
 </template>

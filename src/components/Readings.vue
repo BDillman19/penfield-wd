@@ -3,16 +3,23 @@
 import type {Schema} from '../../amplify/data/resource'
 import { generateClient } from 'aws-amplify/data'
 import { onMounted, ref } from 'vue';
+import NewReadingPopup from './NewReadingPopup.vue';
 
 const client = generateClient<Schema>()
 const readings = ref<Array<Schema['Reading']['type']>>([])
-const mValue = ref()
-const customersMeterId = ref('')
+const props = defineProps(['customerId'])
 
-function createReading(mValue: number, customersMeterId: string) {
+function createReading(mValue: number, customerId: string) {
     client.models.Reading.create({
         value: mValue,
-        meterId: customersMeterId
+        meterId: customerId
+    })
+    fetchReadings();
+}
+function createReadingWithCustomerId(mValue: number) {
+    client.models.Reading.create({
+        value: mValue,
+        meterId: props.customerId
     })
     fetchReadings();
 }
@@ -28,19 +35,5 @@ onMounted(() => {
 </script>
 
 <template>
-    <div>
-        <h1>Add Meter Reading</h1>
-        <input v-model.number="mValue" type="number" placeholder="Meter Value"/>
-        <input v-model="customersMeterId" placeholder="Customer"/>
-        <button @click="createReading(mValue, customersMeterId)">Add new Meter Value</button>
-    </div>
-    <div>
-        <ul>
-            <li
-              v-for="reading in readings"
-              :key="reading.id">
-              {{ reading.value }}
-            </li>
-        </ul>
-    </div>
+    <NewReadingPopup v-on:create-reading="createReadingWithCustomerId" />
 </template>
