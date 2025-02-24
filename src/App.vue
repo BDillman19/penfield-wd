@@ -4,7 +4,6 @@ import "@aws-amplify/ui-vue/styles.css";
 import Customers from "./components/Customers.vue";
 import '@coreui/coreui/dist/css/coreui.min.css';
 
-
 </script>
 
 <template>

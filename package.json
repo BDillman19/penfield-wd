@@ -14,7 +14,11 @@
     "@aws-amplify/ui-vue": "^4.2.28",
     "@coreui/coreui": "^5.2.0",
     "@coreui/vue": "^5.4.1",
+    "@primeuix/themes": "^1.0.0-rc.1",
     "aws-amplify": "^6.13.0",
+    "primeicons": "^7.0.0",
+    "primevue": "^4.2.5",
+    "tailwindcss-primeui": "^0.4.0",
     "uuid": "^11.0.5",
     "vue": "^3.4.21"
   },
