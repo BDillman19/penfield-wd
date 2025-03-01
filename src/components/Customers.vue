@@ -18,7 +18,6 @@ const customers = ref<Array<Schema['Customer']['type']>>([])
 const loading =ref(true)
 const loadingReadings = ref(true)
 const expandedRows = ref({})
-const toast = useToast()
 
 const filters = ref({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS },
@@ -29,8 +28,7 @@ const filters = ref({
 function createCustomer(serviceAddress: string, name: string) {
     client.models.Customer.create({
         serviceAddress: serviceAddress,
-        name: name,
-        meterId: v4()
+        name: name
     })
     fetchCustomers();
 }
