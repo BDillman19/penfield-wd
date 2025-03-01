@@ -35,13 +35,21 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-#signOut {
-  width: 150px;
-  margin: auto;
-  border-radius: 8px;
+#routeButtons {
+  width: 12%;
   position: fixed;
-  top: 15px;
-  right: 15px;
+  top: 3%;
+  right: 1%;
+}
+
+#signOut {
+  margin: 1%;
+  width: 75%;
+}
+
+#dashboardButton {
+  margin: 1%;
+  width: 75%;
 }
 
 ul {
@@ -90,6 +98,10 @@ a {
     top: 15px;
     left: 15px;
   }
+
+  .p-card-body {
+    display: none !important;
+  }
 }
 
 @media only screen and (max-width: 1328px) and (min-width: 768px) {
@@ -102,6 +114,46 @@ a {
   }
 }
 
+@media only screen and (max-width: 450px) {
+  .pageTitle {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    top: 12%;
+    left: 30%;
+  }
+}
+
+@media only screen and (min-width: 450px) and (max-width: 800px) {
+  .pageTitle {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    top: 14%;
+    left: 39%;
+  }
+}
+
+@media only screen and (min-width: 800px) and (max-width: 1100px) {
+  .pageTitle {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    top: 14%;
+    left: 43%;
+  }
+}
+
+@media only screen and (min-width: 1100px) {
+  .pageTitle {
+    position: fixed;
+    display: flex;
+    justify-content: center;
+    top: 14%;
+    left: 45.5%;
+  }
+}
+
 @media only screen and (min-width: 1328px) {
   #logoHeader {
     width: 15%;
@@ -109,6 +161,26 @@ a {
     position: fixed;
     top: 15px;
     left: 42.5%;
+  }
+}
+
+@media only screen and (max-width: 1000px) {
+  #dashboardButtonText {
+    display: none;
+  }
+
+  #signOutButtonText {
+    display: none;
+  }
+}
+
+@media only screen and (min-width: 1000px) {
+  #dashboardButtonIcon {
+    display: none;
+  }
+
+  #signOutButtonIcon {
+    display: none;
   }
 }
 
@@ -139,4 +211,40 @@ a {
 .globalSearch {
   display: flex;
   justify-content: flex-start;
+}
+
+/* .pageTitle {
+  position: fixed;
+  display: flex;
+  justify-content: center;
+  top: 14%;
+  left: 45.5%;
+} */
+
+.cardIcons {
+  width: 80%;
+  height: auto;
+  margin: 10% 10% 0% 10%;
+}
+
+#customersCard {
+  margin: 1%;
+}
+
+#mainMeterCard {
+  margin: 1%;
+}
+
+.cards {
+  width: 15%;
+  height: 15%;
+  overflow: hidden;
+  display: inline-block;
+  margin: 1%;
+}
+
+.cardTitle {
+  text-align: center;
+  font-size: 1.4vw;
+  margin: 0%;
 }

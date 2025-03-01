@@ -8,6 +8,9 @@ import NewReadingPopup from './NewReadingPopup.vue';
 const client = generateClient<Schema>()
 const readings = ref<Array<Schema['Reading']['type']>>([])
 const props = defineProps(['customerId'])
+const emits = defineEmits(['newMainReading', 'newCustomerReading'])
+const mainMeterId = '821355f3-e27e-4c19-8181-36804b1f7765'
+
 
 function createReading(mValue: number, customerId: string) {
     client.models.Reading.create({
@@ -21,6 +24,12 @@ function createReadingWithCustomerId(mValue: number) {
         value: mValue,
         meterId: props.customerId
     })
+    if (props.customerId == mainMeterId) {
+        emits('newMainReading')
+    } else {
+        emits('newCustomerReading', props.customerId)
+    }
+
     fetchReadings();
 }
 
