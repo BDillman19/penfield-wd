@@ -20,15 +20,22 @@ const loadingReadings = ref(true)
 const expandedRows = ref({})
 
 const filters = ref({
-    global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-    serviceAddress: {value: null, matchMode: FilterMatchMode.CONTAINS}
+    global: { value: null, matchMode: FilterMatchMode.CONTAINS }
 });
 
-function createCustomer(serviceAddress: string, name: string) {
+function createCustomer(serviceAddress: string, 
+                        name: string, 
+                        altName: string, 
+                        homePhone: string,
+                        cellPhone1: string,
+                        cellPhone2: string ) {
     client.models.Customer.create({
         serviceAddress: serviceAddress,
-        name: name
+        name: name,
+        altName: altName,
+        homePhone: homePhone,
+        cellPhone1: cellPhone1,
+        cellPhone2: cellPhone2
     })
     fetchCustomers();
 }
@@ -122,24 +129,27 @@ const formatDate = (value: Date) => {
             <template #body="{ data }">
                 {{ data.name }}
             </template>
-            <template #filter="{ filterModel, filterCallback }">
-                <InputText v-model="filterModel.value" type="text" @input="filterCallback()" placeholder="Search by name" />
-            </template>
         </Column>
-        
         <Column field="serviceAddress" header="Service Address" sortable>
             <template #body="{ data }">
                 {{ data.serviceAddress }}
             </template>
-            <template #filter="{ filterModel, filterCallback }">
-                <InputText v-model="filterModel.value" type="text" @input="filterCallback()" placeholder="Search by address" />
+        </Column>
+        <Column field="homePhone" header="Home Phone">
+            <template #body="{ data }">
+                {{ data.homePhone }}
             </template>
         </Column>
-        <Column class="w-24 !text-end">
+        <Column field="cellPhone1" header="Primary Cell Phone">
+            <template #body="{ data }">
+                {{ data.cellPhone1 }}
+            </template>
+        </Column>
+        <!-- <Column class="w-24 !text-end">
             <template #body="{ data }">
                 <Readings :customerId="data.id" @new-customer-reading="(customerId) => fetchReadingsByMeterId(customerId)"/>
             </template>
-        </Column>
+        </Column> -->
         <template #expansion="data">
             <div class="p-4">
                 <h5>Meter Readings for {{ data.data.name }}</h5>

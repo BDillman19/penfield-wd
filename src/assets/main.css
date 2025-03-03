@@ -248,3 +248,8 @@ a {
   font-size: 1.4vw;
   margin: 0%;
 }
+
+.tableColumnSearchBox {
+  width: 75%;
+  height: auto;
+}

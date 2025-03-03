@@ -42,5 +42,21 @@ import 'primeicons/primeicons.css'
                 </Card>
             </RouterLink>
         </span>
+        <span class="cards">
+            <RouterLink to="/meter-reading-mode">
+                <Card>
+                    <template #header>
+                        <img alt="user header" class="cardIcons" src="../assets/water-meter.png"/>
+                    </template>
+                    <template #title>
+                        <p class="cardTitle">Reading Mode</p>
+                    </template>
+                    <template #content>
+                    </template>
+                    <template #footer>
+                    </template>
+                </Card>
+            </RouterLink>
+        </span>
     </div>
 </template>

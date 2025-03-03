@@ -7,6 +7,10 @@ import 'primeicons/primeicons.css'
 const visibleNewCustPopup = ref(false)
 const serviceAddress = ref('')
 const name = ref('')
+const altName = ref('')
+const homePhone = ref('')
+const cellPhone1 = ref('')
+const cellPhone2 = ref('')
 const emits = defineEmits(['createCustomer'])
 
 </script>
@@ -36,11 +40,43 @@ const emits = defineEmits(['createCustomer'])
         </div>
         <div class="flex items-center gap-4 mb-8">
             <InputText 
+                id="altName" 
+                class="flex-auto" 
+                autocomplete="off" 
+                placeholder="Alternative Name"
+                v-model="altName" />
+        </div>
+        <div class="flex items-center gap-4 mb-8">
+            <InputText 
                 id="serviceAddress" 
                 class="flex-auto" 
                 autocomplete="off" 
                 placeholder="Service Address"
                 v-model="serviceAddress" />
+        </div>
+        <div class="flex items-center gap-4 mb-8">
+            <InputText 
+                id="homePhone" 
+                class="flex-auto" 
+                autocomplete="off" 
+                placeholder="Home Phone"
+                v-model="homePhone" />
+        </div>
+        <div class="flex items-center gap-4 mb-8">
+            <InputText 
+                id="cellPhone1" 
+                class="flex-auto" 
+                autocomplete="off" 
+                placeholder="Primary Cell Phone"
+                v-model="cellPhone1" />
+        </div>
+        <div class="flex items-center gap-4 mb-8">
+            <InputText 
+                id="cellPhone2" 
+                class="flex-auto" 
+                autocomplete="off" 
+                placeholder="Secondary Cell Phone"
+                v-model="cellPhone2" />
         </div>
         <div class="flex justify-end">
             <Button 
@@ -56,7 +92,7 @@ const emits = defineEmits(['createCustomer'])
                 label="Save" 
                 severity="info" 
                 @click="() => {
-                    $emit('createCustomer', serviceAddress, name)
+                    $emit('createCustomer', serviceAddress, name, altName, homePhone, cellPhone1, cellPhone2)
                     visibleNewCustPopup = false
                 }">
             </Button>
