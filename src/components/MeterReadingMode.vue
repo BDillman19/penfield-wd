@@ -7,80 +7,58 @@ import { PrimeIcons } from '@primevue/core/api'
 import Readings from './Readings.vue';
 import 'primeicons/primeicons.css'
 import { FilterMatchMode } from '@primevue/core/api'
-
+import type { Nullable } from '@primevue/core';
 
 const client = generateClient<Schema>()
-// const mainMeterId = '821355f3-e27e-4c19-8181-36804b1f7765'
-// const readings = ref<Array<Schema['Reading']['type']>>([])
 const customers = ref<Array<Schema['Customer']['type']>>([])
-const tableData = ref<Array<Object>>([])
+const tableData = ref<Array<CustomerWithLatestReading>>([])
 const loading =ref(true)
 const filters = ref({
     global: { value: null, matchMode: FilterMatchMode.CONTAINS }
 });
 
-// const formatDate = (value: Date) => {
-//     return value.toLocaleDateString('en-US', {
-//         day: '2-digit',
-//         month: '2-digit',
-//         year: 'numeric'
-//     });
-// };
+interface ICustomerWithLatestReading {
+    id: string
+    name: string
+    serviceAddress: string
+    latestValue: string
+}
+
+class CustomerWithLatestReading implements ICustomerWithLatestReading {
+    id: string
+    name: string
+    serviceAddress: string
+    latestValue: string
+
+    constructor(id: string, name: Nullable<string>, serviceAddress: Nullable<string>, latestValue: string) {
+        this.id = id
+        this.name = String(name)
+        this.serviceAddress = String(serviceAddress)
+        this.latestValue = latestValue
+    }
+}
 
 async function fetchCustomers(){ 
     client.models.Customer.observeQuery().subscribe({
     next: ({ items, isSynced }) => {
         customers.value = items        
         let latestValue = ref()
-        console.log(customers.value)
-        items.forEach((customer) => {
-            console.log(customer.readings.length)
-            testingStuff(customer.id).then((value) => latestValue.value = value)
-            console.log(latestValue.value)
-            tableData.value.push({
-                id: customer.id,
-                name: customer.name,
-                serviceAddress: customer.serviceAddress,
-                latestReading: latestValue
-            })
+        items.forEach(async (customer) => {
+            let customerIndex = tableData.value.findIndex((customerWithReading) =>
+                customerWithReading.id == customer.id
+            )
+            latestValue.value = await getLatestMeterReading(customer.id).then((value) => { return value })
+            let customerWithReading = new CustomerWithLatestReading(customer.id, customer.name, customer.serviceAddress, latestValue.value)
+            if (customerIndex == -1) {
+                tableData.value.push(customerWithReading)
+            } else {
+                tableData.value.splice(customerIndex, 1, customerWithReading)
+            }
         })
      },
   });
-  console.log(tableData)
   loading.value = false
 }
-
-async function testingStuff(customerId: string) {
-    let result = await getLatestMeterReading(customerId)
-    console.log('In temp func. Value is', result)
-    return result
-}
-
-// async function generateTableData() {
-//     let tempList = await fetchCustomers()
-//     console.log(tempList)
-//     let latestValue
-//     tempList.forEach((customer) => {
-//         latestValue = getLatestMeterReading(customer.id)
-//         tableData.value.push({
-//             id: customer.id,
-//             name: customer.name,
-//             serviceAddress: customer.serviceAddress,
-//             latestReading: latestValue
-//         })
-//     })
-
-//     loading.value = false
-
-//     console.log("Customers", customers.value)
-//     console.log("table Data", tableData.value)
-// }
-
-// function updateTableData(customerId: string) {
-//     tableData.value.findIndex((entry) => {
-//         entry.id == customerId
-//     })
-// } 
 
 function getLatestMeterReading(customerId: string) {
     let result
@@ -93,12 +71,10 @@ function getLatestMeterReading(customerId: string) {
         },
         
         }).then ((readingList) => {
-            console.log(readingList.data.length, customerId, readingList)
             if (readingList.data.length == 0) {
                 resolve('No Value')
             } else {
                 result = readingList.data.sort(compareReadings)[0].value
-                console.log('Sending Value', result)
                 resolve(result)
             }
         })
@@ -115,17 +91,27 @@ function compareReadings(reading1: {createdAt: string}, reading2: {createdAt: st
     }
 }
 
+async function updateTableData(customerId: string) {
+    let result = ref()
+    result.value = await getLatestMeterReading(customerId).then((value) => { return value })
+    let customerIndex = tableData.value.findIndex((customerWithReading) =>
+        customerWithReading.id == customerId
+    )
+
+    tableData.value[customerIndex].latestValue = result.value
+    console.log('result found', result.value)
+    console.log(tableData.value[customerIndex].latestValue)
+}
+
 onMounted( () => {
     fetchCustomers()
 })
-
-// onUnmounted(() =>{
-
-// })
 </script>
 
 <template>
-    <h1 class="pageTitle">Meter Reading Mode</h1>
+    <div class="pageTitle">
+        <h1>Meter Reading Mode</h1>
+    </div>
     <DataTable
         width="90%"
         id="meterReadingModeTable"
@@ -163,15 +149,15 @@ onMounted( () => {
                 {{ data.serviceAddress }}
             </template>
         </Column>
-        <Column field="latestReading" header="Latest Reading">
+        <Column field="latestValue" header="Latest Reading">
             <template #body="{ data }">
-                {{ data.latestReading }}
+                {{ data.latestValue }}
             </template>
         </Column>
-        <!-- <Column class="w-24 !text-end">
+        <Column class="w-24 !text-end">
             <template #body="{ data }">
-                <Readings :customerId="data.id" @new-customer-reading="(customerId) => fetchReadingsByMeterId(customerId)"/>
+                <Readings :customerId="data.id" @new-customer-reading="() => fetchCustomers()"/>
             </template>
-        </Column> -->
+        </Column>
     </DataTable>
 </template>

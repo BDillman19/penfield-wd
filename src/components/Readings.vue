@@ -29,7 +29,7 @@ function createReadingWithCustomerId(mValue: number) {
     if (props.customerId == mainMeterId) {
         emits('newMainReading')
     } else {
-        emits('newCustomerReading', props.customerId)
+        emits('newCustomerReading', props.customerId, mValue)
     }
 
     fetchReadings();

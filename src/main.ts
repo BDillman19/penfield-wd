@@ -10,15 +10,17 @@ import Tooltip from 'primevue/tooltip';
 import { createRouter, createWebHistory } from 'vue-router'
 import Customers from './components/Customers.vue'
 import Dashboard from './components/Dashboard.vue'
-import MainMeter from "./components/MainMeter.vue";
-import MeterReadingMode from "./components/MeterReadingMode.vue";
+import MainMeter from "./components/MainMeter.vue"
+import MeterReadingMode from "./components/MeterReadingMode.vue"
+import Schedule from './components/Schedule.vue'
 
 const routes = [
     { path: '/', redirect: {name: 'Dashboard'}},
     { path: '/customers', name: 'Customers', component: Customers },
     { path: '/dashboard', name: 'Dashboard', component: Dashboard },
-    { path: '/main-meter', name: 'Main Meter', component: MainMeter},
-    { path: '/meter-reading-mode', name: 'Meter Reading Mode', component: MeterReadingMode},
+    { path: '/main-meter', name: 'Main Meter', component: MainMeter },
+    { path: '/meter-reading-mode', name: 'Meter Reading Mode', component: MeterReadingMode },
+    { path: '/schedule', name: 'Schedule', component: Schedule },
 ]
 
 const router = createRouter({

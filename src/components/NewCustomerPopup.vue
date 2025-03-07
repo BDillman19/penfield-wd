@@ -16,7 +16,7 @@ const emits = defineEmits(['createCustomer'])
 </script>
 
 <template>
-    <Button :icon="PrimeIcons.USER_EDIT"
+    <Button :icon="PrimeIcons.USER"
                         raised
                         severity="info"
                         id="addCustomerButton"

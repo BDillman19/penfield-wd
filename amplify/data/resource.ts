@@ -16,7 +16,7 @@ const schema = a.schema({
       cellPhone1: a.string(),
       cellPhone2: a.string(),
       lastReadingValue: a.float(),
-       readings: a.hasMany('Reading', 'meterId')
+      readings: a.hasMany('Reading', 'meterId')
     })
     .authorization((allow) => [allow.publicApiKey()]),
     

@@ -82,86 +82,13 @@ a {
 }
 
 #logoHeader {
+  position: absolute;
+  align-self: center;
+  top: 1%;
   width: 30%;
+  min-width: 200px;
+  max-width: 400px;
   height: auto;
-  margin: auto;
-  position: fixed;
-  top: 15px;
-  left: 35%;
-}
-
-@media only screen  and (max-width: 768px) {
-  #logoHeader {
-    width: 50%;
-    margin: auto;
-    position: fixed;
-    top: 15px;
-    left: 15px;
-  }
-
-  .p-card-body {
-    display: none !important;
-  }
-}
-
-@media only screen and (max-width: 1328px) and (min-width: 768px) {
-  #logoHeader {
-    width: 20%;
-    margin: auto;
-    position: fixed;
-    top: 15px;
-    left: 40%;
-  }
-}
-
-@media only screen and (max-width: 450px) {
-  .pageTitle {
-    position: fixed;
-    display: flex;
-    justify-content: center;
-    top: 12%;
-    left: 30%;
-  }
-}
-
-@media only screen and (min-width: 450px) and (max-width: 800px) {
-  .pageTitle {
-    position: fixed;
-    display: flex;
-    justify-content: center;
-    top: 14%;
-    left: 39%;
-  }
-}
-
-@media only screen and (min-width: 800px) and (max-width: 1100px) {
-  .pageTitle {
-    position: fixed;
-    display: flex;
-    justify-content: center;
-    top: 14%;
-    left: 43%;
-  }
-}
-
-@media only screen and (min-width: 1100px) {
-  .pageTitle {
-    position: fixed;
-    display: flex;
-    justify-content: center;
-    top: 14%;
-    left: 45.5%;
-  }
-}
-
-@media only screen and (min-width: 1328px) {
-  #logoHeader {
-    width: 15%;
-    margin: auto;
-    position: fixed;
-    top: 15px;
-    left: 42.5%;
-  }
 }
 
 @media only screen and (max-width: 1000px) {
@@ -213,14 +140,6 @@ a {
   justify-content: flex-start;
 }
 
-/* .pageTitle {
-  position: fixed;
-  display: flex;
-  justify-content: center;
-  top: 14%;
-  left: 45.5%;
-} */
-
 .cardIcons {
   width: 80%;
   height: auto;
@@ -238,6 +157,7 @@ a {
 .cards {
   width: 15%;
   height: 15%;
+  min-width: 80px;
   overflow: hidden;
   display: inline-block;
   margin: 1%;
@@ -245,11 +165,46 @@ a {
 
 .cardTitle {
   text-align: center;
-  font-size: 1.4vw;
+  font-size: 2vmin;
   margin: 0%;
 }
 
 .tableColumnSearchBox {
   width: 75%;
   height: auto;
+}
+
+.inputTextUpdateCustomer {
+  margin: 1.5%;
+  width: 40%;
+}
+
+.pageTitle {
+  position: absolute;
+  align-self: center;
+  display: flex;
+  justify-content: center;
+  top: 20%;
+}
+
+.routerCards {
+  display: flex;
+  justify-content: center;
+}
+
+div.p-card-body {
+  padding: 1rem;
+}
+
+.sx-vue-calendar-wrapper {
+  width: 1000px;
+  max-width: 80vw;
+  height: 600px;
+  max-height: 70vh;
+}
+
+.calendar {
+  position: absolute;
+  top: 25%;
+  align-self: center;
 }

@@ -96,7 +96,9 @@ onMounted( () => {
 </script>
 
 <template>
-    <h1 class="pageTitle">Main Meter</h1>
+    <div class="pageTitle">
+        <h1>Main Meter</h1>
+    </div>
     <DataTable
         width="90%"
         id="mainMeterReadingsTable"

@@ -3,14 +3,13 @@
 import type {Schema} from '../../amplify/data/resource'
 import { generateClient } from 'aws-amplify/data'
 import { onMounted, ref } from 'vue'
-import { v4 } from 'uuid'
-import { DataTable, Column, InputIcon, InputText, IconField, Button} from 'primevue'
-import { useToast } from 'primevue/usetoast'
+import { DataTable, Column, InputIcon, InputText, IconField} from 'primevue'
 import { FilterMatchMode } from '@primevue/core/api'
 import { PrimeIcons } from '@primevue/core/api'
 import NewCustomerPopup from './NewCustomerPopup.vue'
 import Readings from './Readings.vue'
 import 'primeicons/primeicons.css'
+import UpdateCustomerPopUp from './UpdateCustomerPopUp.vue'
 
 const client = generateClient<Schema>()
 const customersReadings = ref<Map<String, Array<Schema['Reading']['type']>>>(new Map()) 
@@ -35,7 +34,8 @@ function createCustomer(serviceAddress: string,
         altName: altName,
         homePhone: homePhone,
         cellPhone1: cellPhone1,
-        cellPhone2: cellPhone2
+        cellPhone2: cellPhone2,
+        lastReadingValue: 0
     })
     fetchCustomers();
 }
@@ -65,6 +65,29 @@ function fetchReadingsByMeterId(meterId: string) {
 
 function deleteCustomer(id: string) {
     client.models.Customer.delete({ id })
+    fetchCustomers()
+}
+
+function updateCustomer(
+        customerId: string,
+        name: string,
+        serviceAddress: string,
+        altName: string,
+        homePhone: string,
+        cellPhone1: string,
+        cellPhone2: string,
+        latestReadingValue: number
+) {
+    client.models.Customer.update({
+        id: customerId,
+        name: name,
+        serviceAddress: serviceAddress,
+        altName: altName,
+        homePhone: homePhone,
+        cellPhone1: cellPhone1,
+        cellPhone2: cellPhone2,
+        lastReadingValue: latestReadingValue
+    })
     fetchCustomers()
 }
 
@@ -145,11 +168,11 @@ const formatDate = (value: Date) => {
                 {{ data.cellPhone1 }}
             </template>
         </Column>
-        <!-- <Column class="w-24 !text-end">
+        <Column class="w-24 !text-end">
             <template #body="{ data }">
-                <Readings :customerId="data.id" @new-customer-reading="(customerId) => fetchReadingsByMeterId(customerId)"/>
+                <UpdateCustomerPopUp :customer-id="data.id" @update-customer="updateCustomer" />
             </template>
-        </Column> -->
+        </Column>
         <template #expansion="data">
             <div class="p-4">
                 <h5>Meter Readings for {{ data.data.name }}</h5>

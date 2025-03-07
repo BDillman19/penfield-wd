@@ -6,8 +6,10 @@ import 'primeicons/primeicons.css'
 </script>
 
 <template>
-    <h1 class="pageTitle">Dashboard</h1>
-    <div>
+    <div class="pageTitle">
+        <h1>Dashboard</h1>
+    </div>
+    <div class="routerCards">
         <span class="cards">
             <RouterLink to="/customers">
                 <Card>
@@ -49,7 +51,23 @@ import 'primeicons/primeicons.css'
                         <img alt="user header" class="cardIcons" src="../assets/water-meter.png"/>
                     </template>
                     <template #title>
-                        <p class="cardTitle">Reading Mode</p>
+                        <p class="cardTitle">Readings</p>
+                    </template>
+                    <template #content>
+                    </template>
+                    <template #footer>
+                    </template>
+                </Card>
+            </RouterLink>
+        </span>
+        <span class="cards">
+            <RouterLink to="/schedule">
+                <Card>
+                    <template #header>
+                        <img alt="calendar" class="cardIcons" src="../assets/calendar-logo2.png" />
+                    </template>
+                    <template #title>
+                        <p class="cardTitle">Schedule</p>
                     </template>
                     <template #content>
                     </template>
