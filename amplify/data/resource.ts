@@ -28,6 +28,14 @@ const schema = a.schema({
       customer: a.belongsTo('Customer', 'meterId')
     })
     .authorization((allow) => [allow.publicApiKey()]),
+
+  Event: a
+    .model({
+      title: a.string(),
+      start: a.string(),
+      end: a.string()
+    })
+    .authorization((allow) => [allow.publicApiKey()])
 });
 
 export type Schema = ClientSchema<typeof schema>;
