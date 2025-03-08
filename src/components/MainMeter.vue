@@ -10,8 +10,6 @@ import 'primeicons/primeicons.css'
 const client = generateClient<Schema>()
 const mainMeterId = '821355f3-e27e-4c19-8181-36804b1f7765'
 const readings = ref<Array<Schema['Reading']['type']>>([])
-const tempReadings = ref<Array<Schema['Reading']['type']>>([])
-const latestReadingValue = ref('')
 const loading =ref(true)
 const formatDate = (value: Date) => {
     return value.toLocaleDateString('en-US', {
@@ -20,21 +18,6 @@ const formatDate = (value: Date) => {
         year: 'numeric'
     });
 };
-
-// async function fetchMainMeterReadings() {
-//     client.models.Reading.onCreate({
-//         filter: {
-//             meterId: {
-//                 eq: mainMeterId
-//             }
-//         }
-//     }).subscribe({
-//         next: (items) => {
-//             readings.value = items
-//             loading.value = false
-//         }
-//     })
-// }
 
 async function fetchMainMeterReadings(){ 
     client.models.Reading.observeQuery({
@@ -52,20 +35,6 @@ async function fetchMainMeterReadings(){
   
 }
 
-function getLatestMeterReading() {
-    let testing = client.models.Reading.list({        
-        filter: {
-            meterId: {
-                eq: mainMeterId
-            }
-        },
-        
-    }).then ((readingList) => {
-        latestReadingValue.value = readingList.data.sort(compareReadings)[0].createdAt
-        console.log(latestReadingValue.value)
-    })
-}
-
 function compareReadings(reading1: {createdAt: string}, reading2: {createdAt: string}) {
     if (new Date(reading1.createdAt) < new Date(reading2.createdAt)) {
         return 1;
@@ -76,22 +45,8 @@ function compareReadings(reading1: {createdAt: string}, reading2: {createdAt: st
     }
 }
 
-// function fetchReadingsByMeterId(meterId: string) {
-//     client.models.Reading.list({
-//         filter: {
-//             meterId: {
-//                 eq: meterId
-//             }
-//         }
-//     }).then (readingList => {
-//         readings.value = readingList.data
-//         loading.value = false
-//     })
-// }
-
 onMounted( () => {
     fetchMainMeterReadings()
-    getLatestMeterReading()
 })
 </script>
 
@@ -130,6 +85,11 @@ onMounted( () => {
         <Column field="createdAt" header="Date" sortable>
             <template #body="{ data }">
                 {{ formatDate(new Date(data.createdAt)) }}
+            </template>
+        </Column>
+        <Column field="usage" header="Usage">
+            <template #body="{ data }">
+                {{ data.usage }}
             </template>
         </Column>
     </DataTable>

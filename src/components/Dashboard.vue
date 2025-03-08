@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import { Card, Button, InputIcon } from 'primevue';
+import { Card, Button, InputIcon } from 'primevue'
+import MainMeterChart from './MainMeterChart.vue'
 import { PrimeIcons } from '@primevue/core/api'
 import 'primeicons/primeicons.css'
 
@@ -8,6 +9,9 @@ import 'primeicons/primeicons.css'
 <template>
     <div class="pageTitle">
         <h1>Dashboard</h1>
+    </div>
+    <div class="mainMeterChart">
+        <MainMeterChart />
     </div>
     <div class="routerCards">
         <span class="cards">

@@ -189,6 +189,7 @@ const formatDate = (value: Date) => {
                             {{ formatDate(new Date(data.createdAt)) }}
                         </template>
                     </Column>
+                    <Column field="usage" header="Usage"></Column>
                 </DataTable>
             </div>
         </template>

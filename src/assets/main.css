@@ -157,7 +157,7 @@ a {
 .cards {
   width: 15%;
   height: 15%;
-  min-width: 80px;
+  min-width: 75px;
   overflow: hidden;
   display: inline-block;
   margin: 1%;
@@ -190,6 +190,7 @@ a {
 .routerCards {
   display: flex;
   justify-content: center;
+  margin-top: 35%;
 }
 
 div.p-card-body {
@@ -207,4 +208,22 @@ div.p-card-body {
   position: absolute;
   top: 25%;
   align-self: center;
+}
+
+.eventInputBox {
+  margin: 1%;
+}
+
+.mainMeterChart {
+  background-color: white;
+  border-radius: 8px;
+  width: 80%;
+  min-width: 315px;
+  margin: auto;
+  position: absolute;
+  top: 30%;
+}
+
+.chart {
+  height: 5%;
 }

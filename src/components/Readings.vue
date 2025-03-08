@@ -10,28 +10,30 @@ const readings = ref<Array<Schema['Reading']['type']>>([])
 const props = defineProps(['customerId'])
 const emits = defineEmits(['newMainReading', 'newCustomerReading'])
 const mainMeterId = '821355f3-e27e-4c19-8181-36804b1f7765'
-const latestReadingValue = ref('')
+const latestReadingValue = ref<number>(0)
 
+function createReading(mValue: number, mUsage: number) {
+    client.models.Reading.create({
+            value: mValue,
+            meterId: props.customerId,
+            usage: mUsage
+        })
 
-function createReading(mValue: number, customerId: string) {
-    client.models.Reading.create({
-        value: mValue,
-        meterId: customerId,
-        usage: Number(mValue) - Number(latestReadingValue)
-    })
-    fetchReadings();
-}
-function createReadingWithCustomerId(mValue: number) {
-    client.models.Reading.create({
-        value: mValue,
-        meterId: props.customerId
-    })
     if (props.customerId == mainMeterId) {
         emits('newMainReading')
     } else {
         emits('newCustomerReading', props.customerId, mValue)
     }
+}
 
+function createReadingWithCustomerId(mValue: number) {
+    let oldValue = getLatestMeterReading(props.customerId)
+
+    setTimeout(() => {
+        let usage = mValue - Number(latestReadingValue.value)
+        createReading(mValue, usage)
+        
+    }, 1500)
     fetchReadings();
 }
 
@@ -40,20 +42,25 @@ async function fetchReadings() {
     readings.value=items;
 }
 
-function getLatestMeterReading() {
-    let testing = client.models.Reading.list({        
+function getLatestMeterReading(id: string) {
+    client.models.Reading.list({        
         filter: {
             meterId: {
-                eq: mainMeterId
+                eq: id
             }
         },
         
     }).then ((readingList) => {
-        if (readingList.data.sort(compareReadings)[0].value == null) {
-            return 0
-        } else {
-            return readingList.data.sort(compareReadings)[0].value
-        }
+
+        try {
+            if (readingList.data.sort(compareReadings)[0].value == null) {
+                latestReadingValue.value = 0
+            } else {
+                latestReadingValue.value = Number(readingList.data.sort(compareReadings)[0].value)
+            }  
+        } catch (err) {
+            // should only occur when customer has no initial readings. reading.value will be undefined
+        } 
     })
 }
 
