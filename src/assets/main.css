@@ -35,13 +35,21 @@ button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
 }
 
-#signOut {
-  width: 150px;
-  margin: auto;
-  border-radius: 8px;
+#routeButtons {
+  width: 12%;
   position: fixed;
-  top: 15px;
-  right: 15px;
+  top: 3%;
+  right: 1%;
+}
+
+#signOut {
+  margin: 1%;
+  width: 75%;
+}
+
+#dashboardButton {
+  margin: 1%;
+  width: 75%;
 }
 
 ul {
@@ -74,41 +82,32 @@ a {
 }
 
 #logoHeader {
+  position: absolute;
+  align-self: center;
+  top: 1%;
   width: 30%;
+  min-width: 200px;
+  max-width: 400px;
   height: auto;
-  margin: auto;
-  position: fixed;
-  top: 15px;
-  left: 35%;
 }
 
-@media only screen  and (max-width: 768px) {
-  #logoHeader {
-    width: 50%;
-    margin: auto;
-    position: fixed;
-    top: 15px;
-    left: 15px;
+@media only screen and (max-width: 1000px) {
+  #dashboardButtonText {
+    display: none;
+  }
+
+  #signOutButtonText {
+    display: none;
   }
 }
 
-@media only screen and (max-width: 1328px) and (min-width: 768px) {
-  #logoHeader {
-    width: 20%;
-    margin: auto;
-    position: fixed;
-    top: 15px;
-    left: 40%;
+@media only screen and (min-width: 1000px) {
+  #dashboardButtonIcon {
+    display: none;
   }
-}
 
-@media only screen and (min-width: 1328px) {
-  #logoHeader {
-    width: 15%;
-    margin: auto;
-    position: fixed;
-    top: 15px;
-    left: 42.5%;
+  #signOutButtonIcon {
+    display: none;
   }
 }
 
@@ -139,4 +138,92 @@ a {
 .globalSearch {
   display: flex;
   justify-content: flex-start;
+}
+
+.cardIcons {
+  width: 80%;
+  height: auto;
+  margin: 10% 10% 0% 10%;
+}
+
+#customersCard {
+  margin: 1%;
+}
+
+#mainMeterCard {
+  margin: 1%;
+}
+
+.cards {
+  width: 15%;
+  height: 15%;
+  min-width: 75px;
+  overflow: hidden;
+  display: inline-block;
+  margin: 1%;
+}
+
+.cardTitle {
+  text-align: center;
+  font-size: 2vmin;
+  margin: 0%;
+}
+
+.tableColumnSearchBox {
+  width: 75%;
+  height: auto;
+}
+
+.inputTextUpdateCustomer {
+  margin: 1.5%;
+  width: 40%;
+}
+
+.pageTitle {
+  position: absolute;
+  align-self: center;
+  display: flex;
+  justify-content: center;
+  top: 20%;
+}
+
+.routerCards {
+  display: flex;
+  justify-content: center;
+  margin-top: 35%;
+}
+
+div.p-card-body {
+  padding: 1rem;
+}
+
+.sx-vue-calendar-wrapper {
+  width: 1000px;
+  max-width: 80vw;
+  height: 600px;
+  max-height: 70vh;
+}
+
+.calendar {
+  position: absolute;
+  top: 25%;
+  align-self: center;
+}
+
+.eventInputBox {
+  margin: 1%;
+}
+
+.mainMeterChart {
+  background-color: white;
+  border-radius: 8px;
+  width: 80%;
+  min-width: 315px;
+  margin: auto;
+  position: absolute;
+  top: 30%;
+}
+
+.chart {
+  height: 5%;
 }

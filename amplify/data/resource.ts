@@ -11,8 +11,12 @@ const schema = a.schema({
     .model({
       serviceAddress: a.string(),
       name: a.string(),
-      meterId: a.id(),
-       readings: a.hasMany('Reading', 'meterId')
+      altName: a.string(),
+      homePhone: a.string(),
+      cellPhone1: a.string(),
+      cellPhone2: a.string(),
+      lastReadingValue: a.float(),
+      readings: a.hasMany('Reading', 'meterId')
     })
     .authorization((allow) => [allow.publicApiKey()]),
     
@@ -20,9 +24,18 @@ const schema = a.schema({
     .model({
       value: a.float(),
       meterId: a.id(),
+      usage: a.float(),
       customer: a.belongsTo('Customer', 'meterId')
     })
     .authorization((allow) => [allow.publicApiKey()]),
+
+  Event: a
+    .model({
+      title: a.string(),
+      start: a.string(),
+      end: a.string()
+    })
+    .authorization((allow) => [allow.publicApiKey()])
 });
 
 export type Schema = ClientSchema<typeof schema>;

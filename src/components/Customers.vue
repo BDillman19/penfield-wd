@@ -3,33 +3,39 @@
 import type {Schema} from '../../amplify/data/resource'
 import { generateClient } from 'aws-amplify/data'
 import { onMounted, ref } from 'vue'
-import { v4 } from 'uuid'
-import { DataTable, Column, InputIcon, InputText, IconField, Button} from 'primevue'
-import { useToast } from 'primevue/usetoast'
+import { DataTable, Column, InputIcon, InputText, IconField} from 'primevue'
 import { FilterMatchMode } from '@primevue/core/api'
 import { PrimeIcons } from '@primevue/core/api'
 import NewCustomerPopup from './NewCustomerPopup.vue'
 import Readings from './Readings.vue'
 import 'primeicons/primeicons.css'
+import UpdateCustomerPopUp from './UpdateCustomerPopUp.vue'
 
 const client = generateClient<Schema>()
 const customersReadings = ref<Map<String, Array<Schema['Reading']['type']>>>(new Map()) 
 const customers = ref<Array<Schema['Customer']['type']>>([])
 const loading =ref(true)
+const loadingReadings = ref(true)
 const expandedRows = ref({})
-const toast = useToast()
 
 const filters = ref({
-    global: { value: null, matchMode: FilterMatchMode.CONTAINS },
-    name: { value: null, matchMode: FilterMatchMode.STARTS_WITH },
-    serviceAddress: {value: null, matchMode: FilterMatchMode.CONTAINS}
+    global: { value: null, matchMode: FilterMatchMode.CONTAINS }
 });
 
-function createCustomer(serviceAddress: string, name: string) {
+function createCustomer(serviceAddress: string, 
+                        name: string, 
+                        altName: string, 
+                        homePhone: string,
+                        cellPhone1: string,
+                        cellPhone2: string ) {
     client.models.Customer.create({
         serviceAddress: serviceAddress,
         name: name,
-        meterId: v4()
+        altName: altName,
+        homePhone: homePhone,
+        cellPhone1: cellPhone1,
+        cellPhone2: cellPhone2,
+        lastReadingValue: 0
     })
     fetchCustomers();
 }
@@ -51,12 +57,10 @@ function fetchReadingsByMeterId(meterId: string) {
                 eq: meterId
             }
         }
-    }).then (readingList => {
-        readingList.data.forEach(reading => {
-            customersReadings.value?.set(meterId, readingList.data)
-        })
+    }).then (readingList => {      
+        customersReadings.value?.set(meterId, readingList.data)
+        loadingReadings.value = false
     })
-    return customersReadings.value.get(meterId)
 }
 
 function deleteCustomer(id: string) {
@@ -64,15 +68,38 @@ function deleteCustomer(id: string) {
     fetchCustomers()
 }
 
+function updateCustomer(
+        customerId: string,
+        name: string,
+        serviceAddress: string,
+        altName: string,
+        homePhone: string,
+        cellPhone1: string,
+        cellPhone2: string,
+        latestReadingValue: number
+) {
+    client.models.Customer.update({
+        id: customerId,
+        name: name,
+        serviceAddress: serviceAddress,
+        altName: altName,
+        homePhone: homePhone,
+        cellPhone1: cellPhone1,
+        cellPhone2: cellPhone2,
+        lastReadingValue: latestReadingValue
+    })
+    fetchCustomers()
+}
+
 onMounted(() => {
     fetchCustomers();
 })
 
-const onRowExpand = () => {
-    toast.add({ severity: 'info', summary: 'Product Expanded', life: 3000 });
+const onRowExpand = (event: { data: { id: string } }) => {
+    fetchReadingsByMeterId(event.data.id)
 };
 const onRowCollapse = () => {
-    toast.add({ severity: 'success', summary: 'Product Collapsed', life: 3000 });
+    loadingReadings.value = true
 };
 
 const formatDate = (value: Date) => {
@@ -86,7 +113,9 @@ const formatDate = (value: Date) => {
 </script>
 
 <template>
-    <DataTable 
+    <h1 class="pageTitle">Customers</h1>
+    <DataTable
+        width="90%"
         id="customersDataTable"
         v-model:expanded-rows="expandedRows"
         :expanded-row-icon="PrimeIcons.ANGLE_DOWN"
@@ -123,38 +152,44 @@ const formatDate = (value: Date) => {
             <template #body="{ data }">
                 {{ data.name }}
             </template>
-            <template #filter="{ filterModel, filterCallback }">
-                <InputText v-model="filterModel.value" type="text" @input="filterCallback()" placeholder="Search by name" />
-            </template>
         </Column>
-        
         <Column field="serviceAddress" header="Service Address" sortable>
             <template #body="{ data }">
                 {{ data.serviceAddress }}
             </template>
-            <template #filter="{ filterModel, filterCallback }">
-                <InputText v-model="filterModel.value" type="text" @input="filterCallback()" placeholder="Search by address" />
+        </Column>
+        <Column field="homePhone" header="Home Phone">
+            <template #body="{ data }">
+                {{ data.homePhone }}
+            </template>
+        </Column>
+        <Column field="cellPhone1" header="Primary Cell Phone">
+            <template #body="{ data }">
+                {{ data.cellPhone1 }}
             </template>
         </Column>
         <Column class="w-24 !text-end">
             <template #body="{ data }">
-                <Readings :customerId="data.id"/>
+                <UpdateCustomerPopUp :customer-id="data.id" @update-customer="updateCustomer" />
             </template>
         </Column>
         <template #expansion="data">
             <div class="p-4">
                 <h5>Meter Readings for {{ data.data.name }}</h5>
                 <DataTable 
-                    :value="fetchReadingsByMeterId(data.data.id)"
+                    :value="customersReadings.get(data.data.id)"
                     sort-field="createdAt"
+                    :loading="loadingReadings"
                     :sortOrder="-1">
                     <template #empty> No readings found. </template>
+                    <template #loading> Loading customers readings. Please wait. </template>
                     <Column field="value" header="Value" :sortable="true"></Column>
                     <Column field="createdAt" header="Date" data-type="date" sortable>
                         <template #body="{ data }">
                             {{ formatDate(new Date(data.createdAt)) }}
                         </template>
                     </Column>
+                    <Column field="usage" header="Usage"></Column>
                 </DataTable>
             </div>
         </template>

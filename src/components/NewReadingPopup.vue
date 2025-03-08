@@ -23,7 +23,7 @@ const emits = defineEmits(['createReading'])
         header="Add Meter Reading"
         :style="{ width: '30rem' }"
         >
-        <span class="text-surface-500 dark:text-surface-400 block mb-8">Enter Meter Reading.</span>
+        <span class="text-surface-500 dark:text-surface-400 block mb-8">Enter Meter Value.</span>
         <div class="flex items-center gap-4 mb-4">
             <InputText 
                 id="value" 
