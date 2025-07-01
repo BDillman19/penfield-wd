@@ -19,7 +19,7 @@ const schema = a.schema({
       readings: a.hasMany('Reading', 'meterId')
     })
     //.authorization((allow) => [allow.publicApiKey()]),
-    .authorization((allow) => [allow.onwer()]),
+    .authorization((allow) => [allow.owner()]),
     
   Reading: a
     .model({
@@ -29,7 +29,7 @@ const schema = a.schema({
       customer: a.belongsTo('Customer', 'meterId')
     })
     //.authorization((allow) => [allow.publicApiKey()]),
-    .authorization((allow) => [allow.onwer()]),
+    .authorization((allow) => [allow.owner()]),
 
   Event: a
     .model({
@@ -38,7 +38,7 @@ const schema = a.schema({
       end: a.string()
     })
     //.authorization((allow) => [allow.publicApiKey()])
-    .authorization((allow) => [allow.onwer()])
+    .authorization((allow) => [allow.owner()])
 });
 
 export type Schema = ClientSchema<typeof schema>;
