@@ -18,8 +18,8 @@ const schema = a.schema({
       lastReadingValue: a.float(),
       readings: a.hasMany('Reading', 'meterId')
     })
-    //.authorization((allow) => [allow.publicApiKey()]),
-    .authorization((allow) => [allow.owner()]),
+    .authorization((allow) => [allow.publicApiKey()]),
+    //.authorization((allow) => [allow.owner()]),
     
   Reading: a
     .model({
@@ -28,8 +28,8 @@ const schema = a.schema({
       usage: a.float(),
       customer: a.belongsTo('Customer', 'meterId')
     })
-    //.authorization((allow) => [allow.publicApiKey()]),
-    .authorization((allow) => [allow.owner()]),
+    .authorization((allow) => [allow.publicApiKey()]),
+    //.authorization((allow) => [allow.owner()]),
 
   Event: a
     .model({
@@ -37,8 +37,8 @@ const schema = a.schema({
       start: a.string(),
       end: a.string()
     })
-    //.authorization((allow) => [allow.publicApiKey()])
-    .authorization((allow) => [allow.owner()])
+    .authorization((allow) => [allow.publicApiKey()])
+    //.authorization((allow) => [allow.owner()])
 });
 
 export type Schema = ClientSchema<typeof schema>;
@@ -46,12 +46,12 @@ export type Schema = ClientSchema<typeof schema>;
 export const data = defineData({
   schema,
   authorizationModes: {
-    defaultAuthorizationMode: "userPool",
-    //defaultAuthorizationMode: "apiKey",
+    //defaultAuthorizationMode: "userPool",
+    defaultAuthorizationMode: "apiKey",
     // API Key is used for a.allow.public() rules
-    //apiKeyAuthorizationMode: {
-       //expiresInDays: 30,
-    //},
+    apiKeyAuthorizationMode: {
+       expiresInDays: 30,
+    },
   },
 });
 
