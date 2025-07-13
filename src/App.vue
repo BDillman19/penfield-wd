@@ -14,7 +14,7 @@ function routeToDashboard() {
 <template>
   <main>
       <img id="logoHeader" src="./assets/PWDLogoFullUpdated.png"/>
-    <authenticator :sign-up-attributes="['name']" :hide-sign-up="true">
+    <authenticator :sign-up-attributes="['name']">
       <template v-slot="{ user, signOut }">
         <div id="routeButtons">
           <RouterLink to="/dashboard">
